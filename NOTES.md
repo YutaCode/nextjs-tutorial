@@ -10,3 +10,6 @@
 - CSS Modules = コンポーネント単位でスコープ化される
 - clsx = 条件付きでクラスを切り替えるのに便利
 
+## Chapter 3: Fonts & Images
+- next/font = フォントを最適化してレイアウトシフト防止
+- next/image = 画像を最適化してレスポンシブやlazy load対応
