@@ -29,3 +29,9 @@
   → colocation = 関連ファイルを同じ場所にまとめられる  
   → partial rendering = ページ遷移時に layout は再描画されず、page だけ更新  
   → root layout = アプリ全体に共通する枠（必須）
+
+## Chapter 5: Navigation
+- `<Link>`: リロードなしでページ遷移できる
+- `usePathname()`: 今のURLを取得（アクティブリンクに使う）
+- `clsx`: 条件付きでクラスを当てられる
+- ナビゲーションは部分レンダリング＋プリフェッチで高速
