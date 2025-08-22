@@ -35,3 +35,11 @@
 - `usePathname()`: 今のURLを取得（アクティブリンクに使う）
 - `clsx`: 条件付きでクラスを当てられる
 - ナビゲーションは部分レンダリング＋プリフェッチで高速
+
+## Chapter 6: Database Setup
+- Vercel に GitHub リポジトリを接続（自動デプロイ有効化）
+- Storage → Postgres(Neon) で DB 作成（リージョンは近場：例 Singapore）
+- `.env` に `POSTGRES_URL` などの接続情報を追加（Show secret → コピー）
+- `/seed` にアクセスして初期データ投入（成功後、seed 用ファイルは削除）
+- `/query` の API ルートで DB 接続を確認（OKならこの確認用ルートも削除可）
+- メモ：`route.ts` は API エンドポイントを作る場所（DB クエリはここから実行）
