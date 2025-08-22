@@ -7,8 +7,6 @@ For more information, see the [course curriculum on the Next.js Website](https:/
 
 ---
 
-## 日本語
-
 これは Next.js App Router Course のスターターテンプレートです。  
 ダッシュボードアプリケーション用の初期コードが含まれています。
 
