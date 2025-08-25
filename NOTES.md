@@ -76,3 +76,25 @@
 
 - 実験: fetchRevenue() に3秒delayを入れると全体が遅延
   → Dynamic は最も遅いフェッチに依存する
+
+## Chapter 9: Streaming, Suspense, Skeletons, Route Groups
+
+- **Streaming**
+  - ページを小さなチャンクに分けて、準備できた部分から順に表示
+  - 遅いフェッチが全体をブロックしない
+
+- **loading.tsx**
+  - ページロード中に表示する代替 UI を定義する特殊ファイル
+  - 内部的には React Suspense が利用されている
+  - 静的な部分はすぐ表示され、動的な部分は後から差し込まれる
+
+- **Skeleton UI**
+  - 開発者が用意する「仮の UI」
+  - Next.js が自動生成するわけではない
+  - 本物のUIに似せることで UX を自然に見せられる
+
+- **Route Groups**
+  - URL に影響しない整理フォルダ（`()で囲む`）
+  - 例: `/dashboard/(overview)/page.tsx` → URLは `/dashboard`
+  - `loading.tsx` の適用範囲を限定できる
+  - 大規模開発ではセクションやチーム単位での整理にも使える
