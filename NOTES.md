@@ -105,3 +105,31 @@
   - ページ全体をラップ → 遅延が1つでもあると全体が遅れる  
   - 全コンポーネントをラップ → UI がバラバラに「ポンッ」と出現し不自然  
   - セクションごとにラップ → 自然な段階的ロード（推奨）
+
+  ## Chapter 10: Partial Prerendering (PPR) & Data Fetching Summary
+
+- **Streaming の課題**
+  - ページ内に動的処理が1つでもあるとルート全体が Dynamic 扱いになる
+  - 「先に出すUI」も Dynamic の一部になるため、遅延に引っ張られる可能性がある
+
+- **Partial Prerendering (PPR)**
+  - Next.js 14 で導入された実験的機能（`next@canary`）
+  - `next.config.ts` に `experimental.ppr = 'incremental'` を追加
+  - ルート単位で `export const experimental_ppr = true` を設定
+  - **静的シェル**を即座に返し、**動的部分**は Suspense を通してあとからストリーミング
+  - Suspense = 静的と動的の境界線
+  - コード変更は不要、Suspense でラップしていれば Next.js が自動で仕分け
+
+- **メリット**
+  - 静的の速さ + 動的の柔軟さを両取り
+  - 本番環境でパフォーマンス改善が期待できる
+  - 将来的にデフォルトのレンダリングモデルになる可能性あり
+
+- **Data Fetching Optimization Summary**
+  1. サーバーと同じリージョンにDBを作成し、レイテンシ削減
+  2. React Server Components でサーバー側フェッチ（秘密保持 & JSバンドル削減）
+  3. SQL で必要なデータだけを取得（転送量 & JS処理削減）
+  4. JavaScript でのデータフェッチを並列化
+  5. Streaming で遅延が全体をブロックするのを防止
+  6. データフェッチを必要なコンポーネント単位に移動し、静的/動的を分離
+
