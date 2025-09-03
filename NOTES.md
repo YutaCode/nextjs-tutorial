@@ -301,7 +301,7 @@
   - errors.customerId?: string[]
   - errors.amount?: string[]
   - errors.status?: string[]
-  - message?: string | null … フォーム全体に関するメッセージ
+- message?: string | null … フォーム全体に関するメッセージ
 
 ## useActionState とフォームの連携
 - `useActionState` により、フォーム送信とエラーメッセージ表示を一元管理
