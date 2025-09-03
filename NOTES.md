@@ -194,18 +194,65 @@
 - `useRouter` でクライアント遷移を実現して、体験をなめらかに  
 - Debouncing でリクエスト数を減らして効率化  
 
-## Chapter 12: Server Actions (途中まで)
+## Chapter 12: Server Actions
 
 ### Server Actionsとは
-- 非同期関数をサーバーで直接実行できる仕組み
-- API エンドポイント (`api/`) を作らなくても、`<form action={fn}>` で直接サーバー関数を呼び出せる
-- セキュリティ強化（入力チェック・暗号化・制限など）が組み込まれている
+- サーバー上で直接非同期処理を実行できる仕組み  
+- `<form action={fn}>` でサーバー関数を呼べる（APIルートを作らなくてOK）  
+- React/Next.js が暗号化や入力チェックを自動的にサポートし、セキュリティ面を強化  
+- 読み取りは **Server Components**、書き込みは **Server Actions** と役割を分けて使う  
 
-### フォームとの連携
-- フォーム送信時に Server Action を呼び出せる
-- 送信データは `FormData` というオブジェクトでサーバーに渡される
+---
 
-### FormData の扱い
-- 各入力値を取り出して辞書のようにまとめることができる
-- まずはログ出力してデータが正しく渡っているか確認
-- 出力先はブラウザではなく、Next.js サーバーを動かしているターミナル
+### フォーム送信とFormData
+- `<form>` 送信時に **`FormData` オブジェクト** がサーバー関数に渡る  
+- `formData.get('fieldName')` で値を取り出せる  
+- 出力はブラウザではなく **Next.js サーバーのターミナル** に表示される  
+
+---
+
+### バリデーション（Zodの活用）
+- `zod` ライブラリでフォームのスキーマを定義  
+- 送信された `FormData` を `schema.parse()` で型チェック＆変換  
+- 例:  
+  - 文字列を数値に変換 → `z.coerce.number()`  
+  - ステータスを列挙型で制限 → `z.enum(['pending', 'paid'])`  
+
+---
+
+### DB書き込みの流れ
+1. `formData` を受け取る  
+2. Zod でバリデーション  
+3. 金額を整数化（例: ドル→セントに換算して保存）  
+4. 日付を生成（`new Date().toISOString().split('T')[0]` で `YYYY-MM-DD` に整形）  
+5. SQL (`postgres.js`) で `INSERT` / `UPDATE` を実行  
+
+---
+
+### キャッシュの再検証とリダイレクト
+- データ変更後はキャッシュをクリアして最新の一覧を表示する必要がある  
+- `revalidatePath('/dashboard/invoices')` でキャッシュを無効化  
+- `redirect('/dashboard/invoices')` でユーザーを一覧に戻す  
+
+---
+
+### Update の実装ポイント
+- 動的ルート `[id]/edit/page.tsx` を作成し、`params.id` を受け取る  
+- 既存データをDBから取得してフォームの `defaultValue` にセット  
+- `updateInvoice.bind(null, id)` で「id を固定した関数」を作り `<form action>` に渡す  
+- hidden input でも可能だが、セキュリティ的に `bind` が推奨  
+
+---
+
+### Delete の実装ポイント
+- `DeleteInvoice` コンポーネントを `buttons.tsx` に実装  
+- `deleteInvoice.bind(null, id)` を `<form action>` に渡して削除処理を実行  
+- 削除後は `revalidatePath` で最新状態に更新  
+
+---
+
+### まとめ
+- Server Actions = **データ変更系処理 (CUD)** を安全に実装する仕組み  
+- APIルートを作らなくてもフォームから直接サーバー処理を呼べる  
+- `bind` を使って安全にIDを渡すのが重要  
+- Create / Update / Delete の一連の流れを通して、フルスタックなデータ操作が可能になった  
