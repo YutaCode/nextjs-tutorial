@@ -296,15 +296,12 @@
 - クライアント側チェックだけでなく、必ずサーバー側で最終確認するのが重要
 
 ---
-// State の例
-export type State = {
-  errors?: {
-    customerId?: string[];
-    amount?: string[];
-    status?: string[];
-  };
-  message?: string | null;
-};
+## State の構造（文章で記述）
+- errors … 各フィールドのエラー配列を持つオブジェクト
+  - errors.customerId?: string[]
+  - errors.amount?: string[]
+  - errors.status?: string[]
+  - message?: string | null … フォーム全体に関するメッセージ
 
 ## useActionState とフォームの連携
 - `useActionState` により、フォーム送信とエラーメッセージ表示を一元管理
