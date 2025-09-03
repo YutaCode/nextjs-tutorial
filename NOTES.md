@@ -285,3 +285,48 @@
 - **error.tsx** = 想定外の例外をまとめてキャッチしてフォールバックUIを表示  
 - **not-found.tsx** = 存在しないリソースに対して 404 ページを表示  
 - エラーハンドリングを組み込むことで、ユーザーにとって「クラッシュではなく親切な案内」を示せるようになった
+
+# Chapter 14: Form Validation & Accessibility
+
+## サーバーサイドバリデーション
+- **Zod** を使って入力内容を検証
+- `safeParse()` により例外を投げずに成功/失敗を判定
+- 成功時は **DB を更新 → `revalidatePath` + `redirect`**
+- 失敗時は **State を返し、フォームのエラー表示に反映**
+- クライアント側チェックだけでなく、必ずサーバー側で最終確認するのが重要
+
+---
+// State の例
+export type State = {
+  errors?: {
+    customerId?: string[];
+    amount?: string[];
+    status?: string[];
+  };
+  message?: string | null;
+};
+
+## useActionState とフォームの連携
+- `useActionState` により、フォーム送信とエラーメッセージ表示を一元管理
+- `<form action={formAction}>` と書くだけで **Server Action** が呼ばれる
+- `state.errors` を各フィールドの下に、`state.message` をフォーム全体の下に表示
+
+---
+
+## アクセシビリティ (a11y)
+- **aria-describedby**  
+  入力欄とエラーメッセージを関連付け、スクリーンリーダーに読ませられる
+- **id="xxx-error"**  
+  各エラーメッセージ要素に一意の ID を付与して参照できるようにする
+- **aria-live="polite"**  
+  エラー内容が更新されたら、ユーザーの操作を邪魔せずにスクリーンリーダーで通知
+
+👉 視覚ユーザーには赤文字エラー、視覚に頼らないユーザーには音声通知。両方に対応できる。
+
+---
+
+## まとめ
+- **バリデーション**: Zod + Server Actions でサーバーサイドの安全なチェック  
+- **状態管理**: useActionState でフォームとエラーメッセージを一元化  
+- **アクセシビリティ**: aria 属性でスクリーンリーダー対応を実現  
+- 親切なエラーメッセージと a11y 対応により、誰にとっても使いやすいフォームになった
