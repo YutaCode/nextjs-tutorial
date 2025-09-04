@@ -288,7 +288,7 @@
 
 ## Chapter 14: Form Validation & Accessibility
 
-## サーバーサイドバリデーション
+### サーバーサイドバリデーション
 - **Zod** を使って入力内容を検証
 - `safeParse()` により例外を投げずに成功/失敗を判定
 - 成功時は **DB を更新 → `revalidatePath` + `redirect`**
@@ -296,21 +296,21 @@
 - クライアント側チェックだけでなく、必ずサーバー側で最終確認するのが重要
 
 ---
-## State の構造（文章で記述）
+### State の構造（文章で記述）
 - errors … 各フィールドのエラー配列を持つオブジェクト
   - errors.customerId?: string[]
   - errors.amount?: string[]
   - errors.status?: string[]
 - message?: string | null … フォーム全体に関するメッセージ
 
-## useActionState とフォームの連携
+### useActionState とフォームの連携
 - `useActionState` により、フォーム送信とエラーメッセージ表示を一元管理
 - `<form action={formAction}>` と書くだけで **Server Action** が呼ばれる
 - `state.errors` を各フィールドの下に、`state.message` をフォーム全体の下に表示
 
 ---
 
-## アクセシビリティ (a11y)
+### アクセシビリティ (a11y)
 - **aria-describedby**  
   入力欄とエラーメッセージを関連付け、スクリーンリーダーに読ませられる
 - **id="xxx-error"**  
@@ -322,7 +322,7 @@
 
 ---
 
-## まとめ
+### まとめ
 - **バリデーション**: Zod + Server Actions でサーバーサイドの安全なチェック  
 - **状態管理**: useActionState でフォームとエラーメッセージを一元化  
 - **アクセシビリティ**: aria 属性でスクリーンリーダー対応を実現  
