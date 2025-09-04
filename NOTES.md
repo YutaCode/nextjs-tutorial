@@ -121,7 +121,7 @@
   - 全コンポーネントをラップ → UI がバラバラに「ポンッ」と出現し不自然  
   - セクションごとにラップ → 自然な段階的ロード（推奨）
 
-  ## Chapter 10: Partial Prerendering (PPR) & Data Fetching Summary
+## Chapter 10: Partial Prerendering (PPR) & Data Fetching Summary
 
 - **Streaming の課題**
   - ページ内に動的処理が1つでもあるとルート全体が Dynamic 扱いになる
