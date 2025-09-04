@@ -327,3 +327,37 @@
 - **状態管理**: useActionState でフォームとエラーメッセージを一元化  
 - **アクセシビリティ**: aria 属性でスクリーンリーダー対応を実現  
 - 親切なエラーメッセージと a11y 対応により、誰にとっても使いやすいフォームになった
+
+## Chapter 15: Adding Authentication
+
+### NextAuth.js 導入
+- 認証・セッション管理を簡単に追加できるライブラリ  
+- 自前でセッションやJWTを管理するより安全・効率的  
+
+### 基本の流れ
+- **auth.config.ts** でログインページや保護ルートを定義  
+- **auth.ts** で NextAuth を初期化し、Credentials プロバイダを使ってメール+パスワードを検証  
+- **middleware.ts** で `/dashboard` 以下を保護。未ログインは `/login` にリダイレクト  
+- **route.ts** で API エンドポイントを設定して NextAuth と接続  
+
+### サーバーアクションとの連携
+- `signIn('credentials', formData, { redirectTo: '/dashboard' })` でログイン処理  
+- `signOut({ redirectTo: '/login' })` でログアウト後の遷移先を指定可能  
+
+### 環境変数
+- `POSTGRES_URL` と `AUTH_SECRET` が必須  
+- **凡ミス**: `AUTH_SECLET` と typo → 「server configuration error」発生  
+- 正しく直して解決、環境変数の重要性を実感  
+
+### bcrypt の注意点
+- **Middleware（Edge Runtime）では bcrypt は使えない**  
+  - Middleware は V8 isolate で動作し、Node.js ネイティブモジュール非対応  
+  - そのためパスワード比較処理は Middleware ではなく、**サーバー側（Server Action / API Route）で行う必要がある**  
+- Middleware の役割は「認証済みかどうか判定」だけ  
+- 実際の認証ロジック（bcrypt.compare）は auth.ts 内で処理する  
+
+### 学び
+- NextAuth.js により認証フローを安全かつ簡単に実装できた  
+- middleware で保護ルートをレンダリング前に制御でき、UXとセキュリティが両立  
+- **bcrypt は Middleware では使えない** → 認証判定とパスワード検証の責務を分ける重要性を学んだ  
+- 環境変数や依存ライブラリの設定不備が「認証全体が動かない」原因になることを体験
