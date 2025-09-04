@@ -360,3 +360,35 @@
 - middleware で保護ルートをレンダリング前に制御でき、UXとセキュリティが両立  
 - **bcrypt は Middleware では使えない** → 認証判定とパスワード検証の責務を分ける重要性を学んだ  
 - 環境変数や依存ライブラリの設定不備が「認証全体が動かない」原因になることを体験
+
+## Chapter 16: Metadata
+
+### Metadata とは
+- ページの追加情報（タイトル・説明・キーワードなど）を `<head>` に埋め込む仕組み  
+- 表示されないが、SEO や SNS でのシェア時に重要な役割を持つ  
+
+### Metadata の種類
+- **Title**: ページタイトル（ブラウザタブに表示される）  
+- **Description**: ページ内容の概要（検索結果に表示）  
+- **Keywords**: 検索エンジン用キーワード  
+- **Open Graph (OG)**: SNS シェア時のタイトル/説明/画像  
+- **Favicon**: ブラウザタブの小さいアイコン  
+
+### Next.js での扱い
+- **Config-based**: `export const metadata` を `layout.tsx` や `page.tsx` に書く  
+- **File-based**: 特殊ファイルを配置すると自動認識される  
+  - `favicon.ico` → タブアイコン  
+  - `opengraph-image.jpg` → SNS シェア画像  
+  - `robots.txt` → クローラー用設定  
+  - `sitemap.xml` → サイト構造情報  
+
+### 実践内容
+- `public/` にあった `favicon.ico` と `opengraph-image.jpg` を `/app` 直下に移動 → 自動認識される  
+- `layout.tsx` に `metadata` を追加してタイトル・説明を設定  
+- ページごとに `metadata` を上書き可能（例: `/dashboard/invoices` → `Invoices | Acme Dashboard`）  
+- `title.template` を使えば「ページタイトル | サイト名」形式を自動化できる  
+
+### 学び
+- **SEO とシェアに強いアプリを作るための基礎知識**  
+- `app` ディレクトリ直下に配置するだけで favicon や OG 画像が反映される便利さを体験  
+- Metadata API を使えば **静的/動的どちらのメタデータ管理も柔軟にできる**  
