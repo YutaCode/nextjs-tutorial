@@ -338,7 +338,6 @@
 - **auth.config.ts** でログインページや保護ルートを定義  
 - **auth.ts** で NextAuth を初期化し、Credentials プロバイダを使ってメール+パスワードを検証  
 - **middleware.ts** で `/dashboard` 以下を保護。未ログインは `/login` にリダイレクト  
-- **route.ts** で API エンドポイントを設定して NextAuth と接続  
 
 ### サーバーアクションとの連携
 - `signIn('credentials', formData, { redirectTo: '/dashboard' })` でログイン処理  
