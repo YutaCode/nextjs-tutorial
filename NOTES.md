@@ -392,3 +392,11 @@
 - **SEO とシェアに強いアプリを作るための基礎知識**  
 - `app` ディレクトリ直下に配置するだけで favicon や OG 画像が反映される便利さを体験  
 - Metadata API を使えば **静的/動的どちらのメタデータ管理も柔軟にできる**  
+
+---
+
+
+## Deployment
+
+This project has been deployed to Vercel and is available at:  
+🔗 [nextjs-tutorial](https://nextjs-tutorial-dl7bjpbtb-yuta-kanekos-projects.vercel.app)
